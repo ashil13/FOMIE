@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fomie Maker – your big-eyed fan art</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fffefb;--ink:#1c1b2e;--mute:#6b6a7c;--line:#e9e6df;--accent:#ffd84d;--accent-ink:#1c1b2e;--chip:#f4f2ec;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17172a;--ink:#f6f4ee;--mute:#a4a3b8;--line:#2e2e48;--chip:#222238}}
+:root[data-theme="dark"]{--bg:#17172a;--ink:#f6f4ee;--mute:#a4a3b8;--line:#2e2e48;--chip:#222238}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "DM Sans",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 22px 56px}
+header{display:flex;align-items:center;gap:10px;font:600 22px "Fredoka",sans-serif}
+header i{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:12px 0 0 var(--accent);margin-right:12px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:48px 0 40px}
+h1{font:600 clamp(40px,6.4vw,68px)/1.02 "Fredoka",sans-serif;margin:0 0 16px;letter-spacing:-.01em}
+.lead{color:var(--mute);max-width:44ch;margin:0 0 28px}
+label{display:block;font-weight:500;margin-bottom:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{flex:1 1 200px;min-width:0;font:inherit;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:transparent;color:var(--ink)}
+input[type=text]:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #3b82f6;outline-offset:2px}
+button,.btn{font:500 16px "DM Sans",sans-serif;border:0;border-radius:14px;padding:14px 20px;cursor:pointer;text-decoration:none;display:inline-block}
+.go{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.go:active{transform:scale(.97)}
+.alt{background:var(--chip);color:var(--ink)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 22px}
+.chip{background:var(--chip);color:var(--ink);padding:9px 16px;border-radius:999px}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.card{border-radius:28px;overflow:hidden;border:2px solid var(--ink);aspect-ratio:1;width:100%;max-width:440px;justify-self:center;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.card.pop{transform:rotate(-2.5deg) scale(1.03)}
+.card svg{display:block;width:100%;height:100%}
+.actions{display:flex;gap:10px;margin-top:16px;justify-content:center;max-width:440px;justify-self:center;width:100%}
+.stage{display:grid;justify-items:center}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;border-top:2px solid var(--line);padding-top:32px}
+.steps h2{font:600 22px "Fredoka",sans-serif;margin:0 0 6px}
+.steps p{margin:0;color:var(--mute)}
+footer{margin-top:44px;color:var(--mute);font-size:14px}
+@media(max-width:760px){.hero{grid-template-columns:1fr;gap:32px;padding-top:28px}.steps{grid-template-columns:1fr;gap:20px}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
+
+textarea{width:100%;font:inherit;padding:12px 16px;border:2px solid var(--line);border-radius:14px;background:transparent;color:var(--ink);resize:vertical;margin-top:10px}
+.card{display:grid;place-items:center;background:var(--chip)}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.hint{color:var(--mute);text-align:center;padding:24px;font-size:16px}
+.spin{width:38px;height:38px;border-radius:50%;border:5px solid var(--line);border-top-color:var(--accent);animation:sp 1s linear infinite;margin:0 auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.err{color:#d6453d;margin:10px 0 0;min-height:1.4em;font-size:15px}
+button:disabled{opacity:.5;cursor:wait}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><i></i>Fomie Maker</header>
+
+<section class="hero">
+  <div>
+    <h1>Meet the Fomie that looks like you.</h1>
+    <p class="lead">Type your handle, pick a vibe, and get a big-eyed fan art made just for you. Free to make, free to share.</p>
+    <label for="handle">Your X handle</label>
+    <div class="row">
+      <input id="handle" type="text" placeholder="@yourname" autocomplete="off" >
+      <button class="go" id="make">Make my Fomie</button>
+    </div>
+    <textarea id="bio" rows="2" maxlength="200" placeholder="Optional: a few words about you (trader, loves cats, builds bots...)"></textarea>
+    <div class="chips" role="group" aria-label="Vibe">
+      <button class="chip" data-v="degen" aria-pressed="true">Degen</button>
+      <button class="chip" data-v="builder" aria-pressed="false">Builder</button>
+      <button class="chip" data-v="artist" aria-pressed="false">Artist</button>
+      <button class="chip" data-v="chill" aria-pressed="false">Chill</button>
+    </div>
+    <p class="err" id="err" role="alert"></p>
+  </div>
+  <div class="stage">
+    <div class="card" id="card"><div class="hint">Your Fomie will appear here.</div></div>
+    <div class="actions">
+      <button class="alt" id="dl">Download PNG</button>
+      <a class="btn go" id="share" href="#" target="_blank" rel="noopener">Share on X</a>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div><h2>Add your handle</h2><p>We read the name and vibe you choose, nothing else.</p></div>
+  <div><h2>Get your Fomie</h2><p>Eyes, outfit, hat and color are picked to match you.</p></div>
+  <div><h2>Share it</h2><p>Post it on X and tag the crew.</p></div>
+</section>
+
+<footer>Unofficial fan project. Fomies and its art belong to their creators.</footer>
+</div>
+
+<script>
+const API="/api/generate";
+let vibe="degen",cur="";
+const $=id=>document.getElementById(id);
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{vibe=b.dataset.v;document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+async function make(){
+ const handle=$("handle").value.trim().replace(/^@/,"");
+ if(!handle){$("err").textContent="Enter your X handle first.";return}
+ $("err").textContent="";$("make").disabled=true;$("make").textContent="Making...";
+ $("card").innerHTML='<div class="hint"><div class="spin"></div>Drawing your Fomie. This takes up to 30 seconds.</div>';
+ try{
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({handle,vibe,bio:$("bio").value})});
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||"Something went wrong");
+  cur=d.image;$("card").innerHTML='<img alt="Your Fomie" src="'+cur+'">';
+  const c=$("card");c.classList.add("pop");setTimeout(()=>c.classList.remove("pop"),380);
+  $("share").href="https://x.com/intent/tweet?text="+encodeURIComponent("Just made my Fomie for @"+handle+" 👀 #Fomies");
+  if(typeof d.left==="number")$("err").textContent=d.left+" left today";
+ }catch(e){$("card").innerHTML='<div class="hint">Nothing yet. Try again.</div>';$("err").textContent=e.message}
+ $("make").disabled=false;$("make").textContent="Make my Fomie";
+}
+$("make").onclick=make;
+$("handle").addEventListener("keydown",e=>{if(e.key==="Enter")make()});
+$("dl").onclick=()=>{
+ if(!cur)return;
+ const img=new Image();
+ img.onload=()=>{
+  const c=document.createElement("canvas");c.width=c.height=1024;const x=c.getContext("2d");
+  x.drawImage(img,0,0,1024,1024);
+  x.font="600 26px sans-serif";x.fillStyle="rgba(28,27,46,.75)";x.textAlign="right";
+  x.fillText("Unofficial fan art",1000,1004);
+  c.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="my-fomie.png";a.click()});
+ };img.src=cur;
+};
+</script>
+</body>
+</html>
